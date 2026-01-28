@@ -4,51 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>karmonov | White Style</title>
+    <!-- Иконки -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     <style>
-        body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: #050505; color: white; font-family: 'Inter', sans-serif; overflow: hidden; position: relative; }
-        .bg-glow { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%); border-radius: 50%; filter: blur(100px); animation: move 20s infinite alternate ease-in-out; z-index: -1; }
+        body {
+            margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: #050505; color: white; font-family: 'Inter', sans-serif; overflow: hidden; position: relative;
+        }
+
+        /* Анимированный фон */
+        .bg-glow {
+            position: absolute; width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(100px); animation: move 20s infinite alternate ease-in-out; z-index: -1;
+        }
         @keyframes move { from { transform: translate(-30%, -30%); } to { transform: translate(30%, 30%); } }
-        .rain { position: absolute; width: 1px; height: 50px; background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3)); animation: fall 1s linear infinite; }
+
+        /* Дождь */
+        .rain {
+            position: absolute; width: 1px; height: 50px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3));
+            animation: fall 1s linear infinite;
+        }
         @keyframes fall { 0% { transform: translateY(-10vh); opacity: 1; } 100% { transform: translateY(110vh); opacity: 0; } }
-        
-        .card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); padding: 40px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; width: 320px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); z-index: 10; }
+
+        /* Карточка */
+        .card {
+            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px);
+            padding: 40px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center; width: 320px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); z-index: 10;
+        }
+
         .avatar { width: 100px; height: 100px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.5); margin-bottom: 15px; object-fit: cover; }
         h1 { font-size: 26px; margin: 10px 0 25px 0; letter-spacing: -1px; }
-        .links { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
-        .link-btn { text-decoration: none; color: white; background: rgba(255, 255, 255, 0.08); padding: 14px; border-radius: 12px; transition: 0.3s; border: 1px solid rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 500; }
-        .link-btn:hover { background: rgba(255, 255, 255, 0.15); border: 1px solid white; }
 
-        /* Улучшенный виджет с кнопками */
-        .player-widget { background: rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .track-name { font-size: 11px; font-weight: 600; color: #aaa; margin-bottom: 10px; text-transform: uppercase; }
+        /* Кнопки соцсетей */
+        .links { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        .link-btn {
+            text-decoration: none; color: white; background: rgba(255, 255, 255, 0.08);
+            padding: 14px; border-radius: 12px; transition: 0.3s; border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 500;
+        }
+        .link-btn:hover { background: rgba(255, 255, 255, 0.15); border: 1px solid white; box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); }
+
+        /* Виджет плеера */
+        .player-widget {
+            background: rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .track-name { font-size: 11px; font-weight: 600; color: #aaa; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
         .controls { display: flex; align-items: center; justify-content: center; gap: 20px; }
         .control-btn { cursor: pointer; font-size: 18px; transition: 0.3s; color: rgba(255,255,255,0.8); }
         .control-btn:hover { color: #fff; transform: scale(1.1); }
-        .vol-container { margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+        .main-play { font-size: 24px !important; width: 30px; }
+        
+        .vol-container { margin-top: 15px; display: flex; align-items: center; gap: 8px; }
         #volumeSlider { width: 100%; height: 3px; cursor: pointer; accent-color: white; }
     </style>
 </head>
 <body>
+
     <div class="bg-glow"></div>
+
+    <!-- Твой трек -->
     <audio id="bg-music" loop>
         <source src="spaztastic_waifu_-_decoder_(Zvyki.com).mp3" type="audio/mpeg">
     </audio>
 
     <div class="card">
+        <!-- Аватарка -->
         <img src="96f318d30095a2a3f0c21659e817d352.jpg" alt="Avatar" class="avatar">
+        
         <h1>karmonov</h1>
+
+        <!-- Кнопки -->
         <div class="links">
-            <a href="https://t.me" class="link-btn" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>
-            <a href="https://discord.com" class="link-btn" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
+            <a href="https://t.me" class="link-btn" target="_blank">
+                <i class="fa-brands fa-telegram"></i> Telegram
+            </a>
+            <a href="https://discord.com" class="link-btn" target="_blank">
+                <i class="fa-brands fa-discord"></i> Discord
+            </a>
         </div>
 
+        <!-- Плеер -->
         <div class="player-widget">
             <div class="track-name">decoder</div>
             <div class="controls">
                 <i class="fas fa-backward-step control-btn" id="prevBtn"></i>
-                <i class="fas fa-play control-btn" id="playBtn"></i>
-                <i class="fas fa-volume-high control-btn"></i>
+                <i class="fas fa-play control-btn main-play" id="playBtn"></i>
+                <i class="fas fa-volume-high" style="font-size: 12px; color: #666;"></i>
             </div>
             <div class="vol-container">
                 <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
@@ -62,6 +107,7 @@
         const prevBtn = document.getElementById('prevBtn');
         const volSlider = document.getElementById('volumeSlider');
 
+        // Функция паузы/воспроизведения
         function togglePlay() {
             if (audio.paused) {
                 audio.play();
@@ -72,18 +118,38 @@
             }
         }
 
-        playBtn.onclick = (e) => { e.stopPropagation(); togglePlay(); };
-        prevBtn.onclick = (e) => { e.stopPropagation(); audio.currentTime = 0; };
-        volSlider.oninput = (e) => { audio.volume = e.target.value; };
-        document.body.onclick = () => { if(audio.paused) togglePlay(); };
+        // Клик по иконке Play/Pause
+        playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            togglePlay();
+        });
 
+        // Клик "В начало"
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            audio.currentTime = 0;
+        });
+
+        // Регулировка громкости
+        volSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+        });
+
+        // Запуск при первом клике по любой части сайта (требование браузеров)
+        document.body.addEventListener('click', () => {
+            if (audio.paused && playBtn.classList.contains('fa-play')) {
+                togglePlay();
+            }
+        }, { once: true });
+
+        // Эффект дождя
         function createRaindrop() {
             const rain = document.createElement('div');
             rain.classList.add('rain');
             rain.style.left = Math.random() * 100 + 'vw';
             rain.style.animationDuration = Math.random() * 1 + 0.5 + 's';
             document.body.appendChild(rain);
-            setTimeout(() => rain.remove(), 1000);
+            setTimeout(() => { rain.remove(); }, 1000);
         }
         setInterval(createRaindrop, 50);
     </script>
