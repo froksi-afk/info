@@ -50,7 +50,6 @@
 
         .link-btn:hover { background: rgba(255, 255, 255, 0.15); border: 1px solid white; box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); }
 
-        /* ВИДЖЕТ ПЛЕЕРА */
         .player-widget {
             background: rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 12px;
             display: flex; align-items: center; gap: 15px; border: 1px solid rgba(255, 255, 255, 0.1);
@@ -62,17 +61,14 @@
         .track-info { text-align: left; overflow: hidden; }
         .track-name { font-size: 12px; font-weight: 600; white-space: nowrap; margin-bottom: 2px; }
         .track-status { font-size: 10px; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; letter-spacing: 1px; }
-
-        #play-hint { position: fixed; top: 20px; font-size: 10px; color: rgba(255, 255, 255, 0.2); letter-spacing: 2px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
     <div class="bg-glow"></div>
-    <div id="play-hint">Tap to play music</div>
 
-    <!-- ЗАМЕНИ music.mp3 НА НАЗВАНИЕ СВОЕГО ФАЙЛА -->
     <audio id="bg-music" loop>
+        <!-- ЗАМЕНИ music.mp3 НА СВОЙ ФАЙЛ -->
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
@@ -89,13 +85,12 @@
             </a>
         </div>
 
-        <!-- Мини-виджет трека -->
         <div class="player-widget">
             <div class="play-pause-btn" id="toggleBtn">
                 <i class="fas fa-play" id="playIcon"></i>
             </div>
             <div class="track-info">
-                <div class="track-name">My Custom Track</div>
+                <div class="track-name">Track</div>
                 <div class="track-status" id="statusText">Paused</div>
             </div>
         </div>
@@ -106,14 +101,12 @@
         const toggleBtn = document.getElementById('toggleBtn');
         const playIcon = document.getElementById('playIcon');
         const statusText = document.getElementById('statusText');
-        const hint = document.getElementById('play-hint');
 
         function togglePlay() {
             if (music.paused) {
                 music.play();
                 playIcon.classList.replace('fa-play', 'fa-pause');
                 statusText.innerText = 'Playing';
-                hint.style.display = 'none';
             } else {
                 music.pause();
                 playIcon.classList.replace('fa-pause', 'fa-play');
@@ -121,20 +114,17 @@
             }
         }
 
-        // Запуск при первом клике по странице
         document.addEventListener('click', () => {
             if (music.paused && statusText.innerText === 'Paused') {
                 togglePlay();
             }
         }, { once: true });
 
-        // Кнопка в виджете
         toggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             togglePlay();
         });
 
-        // Эффект дождя
         function createRaindrop() {
             const rain = document.createElement('div');
             rain.classList.add('rain');
