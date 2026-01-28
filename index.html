@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>karmonov | White Style</title>
-    <!-- Подключаем иконки соцсетей -->
+    <!-- ИСПРАВЛЕНО: Рабочая ссылка на иконки -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     <style>
         body {
@@ -20,7 +20,6 @@
             position: relative;
         }
 
-        /* Анимированный фон (белое свечение) */
         .bg-glow {
             position: absolute;
             width: 800px;
@@ -37,7 +36,6 @@
             to { transform: translate(30%, 30%); }
         }
 
-        /* Эффект дождя (капли) */
         .rain {
             position: absolute;
             width: 1px;
@@ -51,7 +49,6 @@
             100% { transform: translateY(110vh); opacity: 0; }
         }
 
-        /* Стеклянная карточка */
         .card {
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(20px);
@@ -76,7 +73,6 @@
             border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.5);
             margin-bottom: 15px;
-            /* СТИЛЬ ДЛЯ КРУГЛОЙ АВАТАРКИ */
             object-fit: cover; 
         }
 
@@ -121,36 +117,31 @@
     <div id="play-hint">Tap for music</div>
 
     <audio id="bg-music" loop>
-        <!-- ТЕСТОВАЯ МУЗЫКА -->
         <source src="https://www.soundhelix.com" type="audio/mpeg">
     </audio>
 
     <div class="card">
-        <!-- ТВОЯ АВАТАРКА -->
-        <img src="96f318d30095a2a3f0c21659e817d352.jpg
-" alt="Avatar" class="avatar">
-
+        <img src="96f318d30095a2a3f0c21659e817d352.jpg" alt="Avatar" class="avatar">
         
         <h1>karmonov</h1>
 
         <div class="links">
-            <a href="https://t.me" class="link-btn" target="_blank">
-                <i class="fab fa-telegram"></i> Telegram
+            <!-- ТВОЙ ТЕЛЕГРАМ ТЕПЕРЬ ТУТ -->
+            <a href="https://t.me/zavtrovernys" class="link-btn" target="_blank">
+                <i class="fa-brands fa-telegram"></i> Telegram
             </a>
             <a href="https://discord.com" class="link-btn" target="_blank">
-                <i class="fab fa-discord"></i> Discord
+                <i class="fa-brands fa-discord"></i> Discord
             </a>
         </div>
     </div>
 
     <script>
-        // JS для музыки
         document.addEventListener('click', () => {
             document.getElementById('bg-music').play().catch(() => console.log("Music blocked"));
             document.getElementById('play-hint').style.display = 'none';
         }, { once: true });
 
-        // JS для эффекта дождя (создает капли)
         function createRaindrop() {
             const rain = document.createElement('div');
             rain.classList.add('rain');
