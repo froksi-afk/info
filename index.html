@@ -9,7 +9,6 @@
         * { -webkit-tap-highlight-color: transparent; user-select: none; box-sizing: border-box; }
         body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: #000; color: white; font-family: 'Inter', sans-serif; overflow: hidden; position: relative; perspective: 1000px; }
 
-        /* ЭКРАН ПРИВЕТСТВИЯ */
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 100;
@@ -18,21 +17,23 @@
         }
         #overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; transform: scale(1.1); }
         
-        .welcome-title { 
-            font-size: 18px; letter-spacing: 3px; font-weight: 700; text-transform: uppercase; 
-            margin-bottom: 5px; text-align: center;
-            /* БЕЛОЕ СВЕЧЕНИЕ ТЕКСТА */
-            text-shadow: 0 0 10px #fff, 0 0 20px #fff; 
-        }
+        .welcome-title { font-size: 18px; letter-spacing: 3px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; text-align: center; text-shadow: 0 0 10px #fff, 0 0 20px #fff; }
         .click-hint { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.4); animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
 
-        /* ОСНОВНОЙ КОНТЕНТ */
-        #main-content { filter: blur(30px); transition: 2s ease; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; opacity: 0; }
+        #main-content { 
+            filter: blur(30px); transition: 2s ease; width: 100%; height: 100%; 
+            display: flex; align-items: center; justify-content: center; opacity: 0;
+            will-change: transform; transition: transform 0.4s ease; /* Для эффекта приближения */
+        }
         #main-content.active { filter: blur(0); opacity: 1; }
+        /* Класс для приближения фона при клике на кнопку */
+        #main-content.zoomed { transform: scale(1.05); } 
 
-        /* ЭФФЕКТЫ ФОНА */
-        .bg-glow { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%); border-radius: 50%; filter: blur(100px); animation: none; z-index: -1; will-change: transform; }
+        .bg-glow { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%); border-radius: 50%; filter: blur(100px); animation: none; z-index: -1; will-change: transform; transition: transform 0.1s linear; }
+        
+        .rain { position: absolute; width: 1px; height: 50px; background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3)); animation: fall 1s linear infinite; z-index: 1; }
+        @keyframes fall { 0% { transform: translateY(-10vh); opacity: 1; } 100% { transform: translateY(110vh); opacity: 0; } }
         
         .card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); padding: 40px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; width: 320px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); z-index: 10; will-change: transform; }
         
@@ -42,18 +43,16 @@
         h1 { font-size: 26px; margin: 10px 0 5px 0; letter-spacing: -1px; }
         .bio { font-size: 13px; color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; font-weight: 300; line-height: 1.4; padding: 0 10px; }
 
-        /* Эквалайзер */
         .equalizer { display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 30px; margin-bottom: 25px; }
         .bar { width: 4px; height: 2px; background: white; border-radius: 2px; opacity: 0.8; transition: height 0.1s ease; box-shadow: 0 0 5px rgba(255,255,255,0.2); }
 
-        /* Кнопки соцсетей */
         .links { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         .link-btn { 
             text-decoration: none; color: white; background: rgba(255, 255, 255, 0.08); 
             padding: 14px; border-radius: 12px; transition: transform 0.1s, background 0.3s, border 0.3s; 
             display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 500;
         }
-        .link-btn:active { transform: scale(0.95); } /* Эффект нажатия */
+        .link-btn:active { transform: scale(0.95); }
         .link-btn:hover { background: rgba(255, 255, 255, 0.15); border: 1px solid white; }
 
         .player-widget { background: rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
@@ -159,6 +158,16 @@
             const x = (window.innerWidth - e.pageX * 4) / 100;
             const y = (window.innerHeight - e.pageY * 4) / 100;
             bgGlow.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // Эффект приближения фона при клике на ссылки соцсетей
+        document.querySelectorAll('.link-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                mainContent.classList.add('zoomed');
+                setTimeout(() => {
+                    mainContent.classList.remove('zoomed');
+                }, 400); // Длительность анимации
+            });
         });
 
         // Дождь
