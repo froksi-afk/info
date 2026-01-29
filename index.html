@@ -12,46 +12,39 @@
         /* ЭКРАН ПРИВЕТСТВИЯ */
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95); z-index: 100;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 1.5s ease;
+            background: #000; z-index: 100;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; transition: 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        #overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        .welcome-text { 
-            font-size: 14px; letter-spacing: 5px; text-transform: uppercase; 
-            color: rgba(255,255,255,0.5); animation: pulse-text 2s infinite; 
-        }
-        @keyframes pulse-text { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        #overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; transform: scale(1.1); }
+        
+        .welcome-title { font-size: 18px; letter-spacing: 3px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; text-align: center; }
+        .click-hint { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.4); animation: pulse 2s infinite; }
+        
+        @keyframes pulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
 
-        /* ОСНОВНОЙ КОНТЕНТ (РАЗМЫТЫЙ ПО УМОЛЧАНИЮ) */
-        #main-content { 
-            filter: blur(20px); transition: 2s ease; width: 100%; height: 100%; 
-            display: flex; align-items: center; justify-content: center; 
-        }
-        #main-content.active { filter: blur(0); }
+        /* ОСНОВНОЙ КОНТЕНТ */
+        #main-content { filter: blur(30px); transition: 2s ease; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; opacity: 0; }
+        #main-content.active { filter: blur(0); opacity: 1; }
 
-        /* ЭФФЕКТЫ ФОНА */
         .bg-glow { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%); border-radius: 50%; filter: blur(100px); animation: move 20s infinite alternate ease-in-out; z-index: -1; }
         @keyframes move { from { transform: translate(-30%, -30%); } to { transform: translate(30%, 30%); } }
+        
         .rain { position: absolute; width: 1px; height: 50px; background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3)); animation: fall 1s linear infinite; z-index: 1; }
         @keyframes fall { 0% { transform: translateY(-10vh); opacity: 1; } 100% { transform: translateY(110vh); opacity: 0; } }
         
-        /* КАРТОЧКА */
         .card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); padding: 40px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; width: 320px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); z-index: 10; }
         .avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.3); margin-bottom: 15px; object-fit: cover; }
         h1 { font-size: 26px; margin: 10px 0 5px 0; letter-spacing: -1px; }
         .bio { font-size: 13px; color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; font-weight: 300; }
 
-        /* ЭКВАЛАЙЗЕР */
         .equalizer { display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 30px; margin-bottom: 25px; }
         .bar { width: 4px; height: 2px; background: white; border-radius: 2px; opacity: 0.8; transition: height 0.1s ease; }
 
-        /* КНОПКИ */
         .links { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         .link-btn { text-decoration: none; color: white; background: rgba(255, 255, 255, 0.08); padding: 14px; border-radius: 12px; transition: 0.3s; border: 1px solid rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 500; }
         .link-btn:hover { background: rgba(255, 255, 255, 0.15); border: 1px solid white; transform: translateY(-2px); }
 
-        /* ПЛЕЕР */
         .player-widget { background: rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
         .track-name { font-size: 10px; font-weight: 600; color: #aaa; margin-bottom: 10px; text-transform: uppercase; }
         .controls { display: flex; align-items: center; justify-content: center; gap: 20px; }
@@ -62,15 +55,17 @@
 </head>
 <body>
 
-    <!-- ЭКРАН ВХОДА -->
+    <!-- ПРИВЕТСТВЕННЫЙ ЭКРАН -->
     <div id="overlay" onclick="enterSite()">
-        <div class="welcome-text">Click to Enter</div>
+        <div class="welcome-title">Welcome to Info Karmonova</div>
+        <div class="click-hint">Click to Enter</div>
     </div>
 
     <div id="main-content">
         <div class="bg-glow"></div>
+        <!-- ПРОВЕРЬ ПУТЬ К ТРЕКУ НИЖЕ -->
         <audio id="bg-music" loop crossorigin="anonymous">
-            <source src="spaztastic_waifu_-_decoder_(Zvyki.com).mp3" type="audio/mpeg">
+            <source src="your_audio_file.mp3" type="audio/mpeg">
         </audio>
 
         <div class="card">
@@ -90,7 +85,7 @@
             </div>
 
             <div class="player-widget">
-                <div class="track-name">spaztastic waifu - decoder</div>
+                <div class="track-name">Track Title Here</div>
                 <div class="controls">
                     <i class="fas fa-backward-step control-btn" id="prevBtn"></i>
                     <i class="fas fa-play control-btn main-play" id="playBtn"></i>
@@ -113,7 +108,7 @@
             document.getElementById('overlay').classList.add('hidden');
             document.getElementById('main-content').classList.add('active');
             
-            // Инициализация звука
+            // Инициализация Web Audio API строго после клика
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 analyzer = audioCtx.createAnalyzer();
@@ -125,8 +120,13 @@
                 renderFrame();
             }
             
-            audio.play();
-            updateUI();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            audio.play().then(() => {
+                updateUI();
+            }).catch(err => console.log("Audio play error: ", err));
         }
 
         function renderFrame() {
@@ -134,7 +134,7 @@
             analyzer.getByteFrequencyData(dataArray);
             bars.forEach((bar, i) => {
                 const val = dataArray[i * 2] || 0;
-                const height = Math.max(2, (val / 255) * 30);
+                const height = Math.max(2, (val / 255) * 35);
                 bar.style.height = height + 'px';
             });
         }
@@ -152,7 +152,6 @@
         prevBtn.onclick = (e) => { e.stopPropagation(); audio.currentTime = 0; audio.play(); updateUI(); };
         volSlider.oninput = (e) => { audio.volume = e.target.value; };
 
-        // Дождь
         function createRaindrop() {
             const rain = document.createElement('div');
             rain.classList.add('rain');
