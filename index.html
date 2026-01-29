@@ -10,6 +10,9 @@
         * { -webkit-tap-highlight-color: transparent; user-select: none; box-sizing: border-box; }
         body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: #000; color: white; font-family: 'Inter', sans-serif; overflow: hidden; position: relative; }
 
+        /* Живой фон */
+        #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
+
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 1000;
@@ -30,10 +33,7 @@
         }
         #main-content.active { filter: blur(0); opacity: 1; }
 
-        .bg-glow { position: absolute; width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%); border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none; transition: 0.1s linear; }
-        
-        .rain { position: absolute; width: 1px; height: 50px; background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3)); animation: fall 1s linear infinite; z-index: 1; }
-        @keyframes fall { 0% { transform: translateY(-10vh); } 100% { transform: translateY(110vh); } }
+        .bg-glow { position: absolute; width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%); border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none; transition: 0.1s linear; }
         
         .card { 
             background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); 
@@ -64,6 +64,8 @@
 </head>
 <body>
 
+    <canvas id="bg-canvas"></canvas>
+
     <div id="overlay" onclick="enterSite()">
         <div class="welcome-title">Welcome to Info Karmonova</div>
         <div class="click-hint">Click to Enter</div>
@@ -79,10 +81,10 @@
         <div class="card">
             <img src="96f318d30095a2a3f0c21659e817d352.jpg" alt="Avatar" class="avatar">
             <h1>karmonov</h1>
-            <p class="bio">I am not a member of the community, but I study topics such as cybersecurity, osint, cyberstalking, and HTML.</p>
+            <p class="bio">I'm studying cybersecurity and HTML website creation</p>
 
             <div class="links">
-                <a href="https://t.me/zavtrovernys" class="link-btn" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>
+                <a href="https://t.me" class="link-btn" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>
             </div>
 
             <div class="player-widget">
@@ -103,11 +105,50 @@
         const volSlider = document.getElementById('volumeSlider');
         const mainContent = document.getElementById('main-content');
         const bgGlow = document.getElementById('bg-glow');
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Настройка Canvas
+        let particles = [];
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < 60; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 1,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5,
+                    opacity: Math.random() * 0.5
+                });
+            }
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+                ctx.fill();
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+            });
+            requestAnimationFrame(drawParticles);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        drawParticles();
 
         function enterSite() {
             document.getElementById('overlay').classList.add('hidden');
             mainContent.classList.add('active');
-            audio.play().catch(e => console.log("Audio play deferred"));
+            audio.play().catch(() => {});
             updateUI();
         }
 
@@ -134,17 +175,13 @@
             const x = (e.pageX - window.innerWidth / 2) / 30;
             const y = (e.pageY - window.innerHeight / 2) / 30;
             bgGlow.style.transform = `translate(${x}px, ${y}px)`;
+            
+            // Легкое влияние мыши на частицы
+            particles.forEach(p => {
+                p.x += x * 0.05;
+                p.y += y * 0.05;
+            });
         });
-        
-        function createRaindrop() {
-            const rain = document.createElement('div');
-            rain.classList.add('rain');
-            rain.style.left = Math.random() * 100 + 'vw';
-            rain.style.animationDuration = Math.random() * 1 + 0.5 + 's';
-            document.body.appendChild(rain);
-            setTimeout(() => rain.remove(), 1000);
-        }
-        setInterval(createRaindrop, 70);
     </script>
 </body>
 </html>
