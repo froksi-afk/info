@@ -4,75 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>karmonov | White Style</title>
-    <!-- Подключаем иконки и шрифты -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         * { -webkit-tap-highlight-color: transparent; user-select: none; box-sizing: border-box; }
-        body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: #000; color: white; font-family: 'Inter', sans-serif; overflow: hidden; position: relative; perspective: 1000px; }
+        body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: #000; color: white; font-family: 'Inter', sans-serif; overflow: hidden; position: relative; }
 
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 100;
+            background: #000; z-index: 1000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             cursor: pointer; transition: 1.2s ease;
         }
-        #overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; transform: scale(1.1); }
+        #overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         
-        .welcome-title { 
-            font-size: 18px; letter-spacing: 3px; font-weight: 700; text-transform: uppercase; 
-            margin-bottom: 5px; text-align: center;
-            text-shadow: 0 0 10px #fff, 0 0 20px #fff; 
-        }
+        .welcome-title { font-size: 18px; letter-spacing: 3px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; text-shadow: 0 0 15px #fff; }
         .click-hint { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.4); animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
 
-        #main-content { filter: blur(30px); transition: 2s ease; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; opacity: 0; position: relative; }
+        #main-content { 
+            filter: blur(30px); transition: 2s ease; 
+            width: 100%; height: 100%; 
+            display: flex; align-items: center; justify-content: center; 
+            opacity: 0; position: relative; 
+        }
         #main-content.active { filter: blur(0); opacity: 1; }
 
-        .bg-glow { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%); border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none; }
+        .bg-glow { position: absolute; width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%); border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none; transition: 0.1s linear; }
         
         .rain { position: absolute; width: 1px; height: 50px; background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3)); animation: fall 1s linear infinite; z-index: 1; }
-        @keyframes fall { 0% { transform: translateY(-10vh); opacity: 1; } 100% { transform: translateY(110vh); opacity: 0; } }
+        @keyframes fall { 0% { transform: translateY(-10vh); } 100% { transform: translateY(110vh); } }
         
-        /* Контейнеры для текста по бокам */
+        /* Боковые блоки */
         .info-side-block {
-            position: absolute; width: 250px; padding: 20px;
+            position: absolute; width: 280px; padding: 25px;
             background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px); border-radius: 16px;
-            font-size: 13px; line-height: 1.6; color: rgba(255, 255, 255, 0.7);
-            transition: 0.5s ease; z-index: 5;
+            backdrop-filter: blur(15px); border-radius: 20px;
+            font-size: 13px; line-height: 1.6; color: rgba(255, 255, 255, 0.6);
+            z-index: 5; transition: 0.5s ease;
         }
-        .info-side-block b { color: #fff; text-shadow: 0 0 5px #fff; display: block; margin-bottom: 5px; }
-        .left-block { left: 5%; }
-        .right-block { right: 5%; }
+        .info-side-block b { color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.5); display: block; margin-bottom: 8px; font-size: 15px; }
+        .left-block { left: 10%; transform: translateX(-20px); }
+        .right-block { right: 10%; transform: translateX(20px); }
 
-        .card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); padding: 40px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.15); text-align: center; width: 340px; box-shadow: 0 0 50px rgba(255, 255, 255, 0.05); z-index: 10; }
+        .card { 
+            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); 
+            padding: 40px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.15); 
+            text-align: center; width: 340px; z-index: 10;
+            box-shadow: 0 0 60px rgba(255, 255, 255, 0.05);
+        }
         
-        .avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.5); margin-bottom: 15px; object-fit: cover; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
-        
-        h1 { font-size: 26px; margin: 10px 0 5px 0; letter-spacing: 1px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .avatar { width: 110px; height: 110px; border-radius: 50%; border: 2px solid #fff; margin-bottom: 15px; object-fit: cover; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        h1 { font-size: 28px; margin: 10px 0; letter-spacing: 1px; }
         .bio { font-size: 13px; color: rgba(255, 255, 255, 0.5); margin-bottom: 25px; }
 
         .links { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         .link-btn { 
-            text-decoration: none; color: white; background: rgba(255, 255, 255, 0.08); 
+            text-decoration: none; color: white; background: rgba(255, 255, 255, 0.07); 
             padding: 14px; border-radius: 12px; transition: 0.3s; 
             display: flex; align-items: center; justify-content: center; gap: 10px; border: 1px solid transparent;
         }
         .link-btn:hover { background: rgba(255, 255, 255, 0.15); border: 1px solid white; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
 
         .player-widget { background: rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .track-name { font-size: 9px; font-weight: 600; color: #fff; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-        .controls { display: flex; align-items: center; justify-content: center; gap: 20px; }
-        .control-btn { cursor: pointer; font-size: 18px; color: rgba(255,255,255,0.8); transition: 0.3s; }
-        .control-btn:hover { color: #fff; transform: scale(1.1); }
-        #volumeSlider { width: 100%; height: 3px; cursor: pointer; accent-color: white; margin-top: 15px; opacity: 0.7; }
+        .track-name { font-size: 9px; font-weight: 700; color: #fff; margin-bottom: 12px; letter-spacing: 1px; }
+        .controls { display: flex; align-items: center; justify-content: center; gap: 25px; }
+        .control-btn { cursor: pointer; font-size: 20px; color: rgba(255,255,255,0.7); transition: 0.3s; }
+        .control-btn:hover { color: #fff; }
+        #volumeSlider { width: 100%; height: 3px; cursor: pointer; accent-color: white; margin-top: 15px; }
 
-        /* Адаптив для боковых блоков */
-        @media (max-width: 1000px) {
-            .info-side-block { position: static; width: 340px; margin: 10px auto; order: 2; }
-            #main-content { flex-direction: column; overflow-y: auto; height: auto; padding: 50px 0; }
+        /* Для мобилок блоки уходят под карточку */
+        @media (max-width: 1100px) {
+            #main-content { flex-direction: column; overflow-y: auto; padding: 40px 0; }
+            .info-side-block { position: static; width: 340px; margin: 10px 0; transform: none; }
+            .left-block, .right-block { left: auto; right: auto; }
         }
     </style>
 </head>
@@ -90,7 +95,6 @@
             <source src="Rory in early 20s — 99999999999.mp3" type="audio/mpeg">
         </audio>
 
-        <!-- ЛЕВЫЙ БЛОК -->
         <div class="info-side-block left-block">
             <b>Cyberstalking</b>
             is the harassment of a person that takes place in the online space, violates personal boundaries, and causes psychological problems.
@@ -102,7 +106,7 @@
             <p class="bio">I'm studying cybersecurity and HTML website creation</p>
 
             <div class="links">
-                <a href="https://t.me/zavtrovernys" class="link-btn" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>
+                <a href="https://t.me" class="link-btn" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>
                 <a href="https://discord.com" class="link-btn" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
             </div>
 
@@ -116,7 +120,6 @@
             </div>
         </div>
 
-        <!-- ПРАВЫЙ БЛОК -->
         <div class="info-side-block right-block">
             <b>OSINT</b>
             (Open Source Intelligence) is open source intelligence. It is the collection and analysis of information from publicly available sources.
@@ -134,20 +137,37 @@
         function enterSite() {
             document.getElementById('overlay').classList.add('hidden');
             mainContent.classList.add('active');
-            audio.play().then(updateUI).catch(e => console.log("Music ready"));
+            
+            // Запуск музыки после клика
+            audio.play().then(() => {
+                updateUI();
+            }).catch(e => {
+                console.log("Нужно взаимодействие пользователя");
+            });
         }
 
         function updateUI() {
             playBtn.className = audio.paused ? 'fas fa-play control-btn' : 'fas fa-pause control-btn';
         }
 
-        playBtn.onclick = (e) => { e.stopPropagation(); audio.paused ? audio.play() : audio.pause(); updateUI(); };
-        prevBtn.onclick = (e) => { e.stopPropagation(); audio.currentTime = 0; audio.play(); updateUI(); };
+        playBtn.onclick = (e) => { 
+            e.stopPropagation(); 
+            if (audio.paused) audio.play(); else audio.pause(); 
+            updateUI(); 
+        };
+
+        prevBtn.onclick = (e) => { 
+            e.stopPropagation(); 
+            audio.currentTime = 0; 
+            audio.play(); 
+            updateUI(); 
+        };
+
         volSlider.oninput = (e) => { audio.volume = e.target.value; };
 
         document.body.addEventListener('mousemove', (e) => {
-            const x = (e.pageX - window.innerWidth / 2) / 25;
-            const y = (e.pageY - window.innerHeight / 2) / 25;
+            const x = (e.pageX - window.innerWidth / 2) / 30;
+            const y = (e.pageY - window.innerHeight / 2) / 30;
             bgGlow.style.transform = `translate(${x}px, ${y}px)`;
         });
         
