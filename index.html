@@ -9,11 +9,11 @@
         * { -webkit-tap-highlight-color: transparent; user-select: none; box-sizing: border-box; }
         body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: #050505; color: white; font-family: 'Inter', sans-serif; overflow: hidden; position: relative; }
 
-        /* Сетчатый фон (CRT эффект) */
-        body::before {
-            content: " "; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
+        /* Эффект сканирующих линий */
+        body::after {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+            z-index: 5; background-size: 100% 3px, 3px 100%; pointer-events: none;
         }
 
         .bg-glow { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%); border-radius: 50%; filter: blur(100px); animation: move 20s infinite alternate ease-in-out; z-index: -1; }
@@ -22,42 +22,36 @@
         .rain { position: absolute; width: 1px; height: 50px; background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3)); animation: fall 1s linear infinite; z-index: 1; }
         @keyframes fall { 0% { transform: translateY(-10vh); opacity: 1; } 100% { transform: translateY(110vh); opacity: 0; } }
         
-        .card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); padding: 40px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; width: 320px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); z-index: 10; position: relative; }
+        .card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); padding: 40px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; width: 320px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); z-index: 10; }
         
         .fade-in { opacity: 0; transform: translateY(20px); filter: blur(10px); animation: appear 0.8s forwards; }
         @keyframes appear { to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 
-        .avatar { animation-delay: 0.2s; width: 100px; height: 100px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.3); margin-bottom: 15px; object-fit: cover; transition: 0.5s ease; box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); }
-        .avatar:hover { transform: scale(1.1) rotate(3deg); border-color: rgba(255, 255, 255, 0.8); }
+        .avatar { animation-delay: 0.2s; width: 100px; height: 100px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.3); margin-bottom: 15px; object-fit: cover; transition: 0.5s ease; }
+        .avatar:hover { transform: scale(1.1); border-color: white; }
         
-        h1 { animation-delay: 0.4s; font-size: 26px; margin: 10px 0 5px 0; letter-spacing: -1px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        .bio { animation-delay: 0.6s; font-size: 13px; color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; font-weight: 300; line-height: 1.4; }
+        h1 { animation-delay: 0.4s; font-size: 26px; margin: 10px 0 5px 0; letter-spacing: -1px; }
+        .bio { animation-delay: 0.6s; font-size: 13px; color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; font-weight: 300; }
 
-        /* ЭКВАЛАЙЗЕР */
-        .equalizer { display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 20px; margin-bottom: 25px; animation-delay: 0.7s; }
-        .bar { width: 3px; height: 100%; background: white; border-radius: 2px; transition: 0.2s; opacity: 0.6; }
-        .anim-bar { animation: eq 0.6s infinite alternate ease-in-out; }
-        @keyframes eq { 
-            0% { height: 20%; opacity: 0.3; } 
-            100% { height: 100%; opacity: 1; } 
-        }
+        /* РЕАЛЬНЫЙ ЭКВАЛАЙЗЕР */
+        .equalizer { display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 30px; margin-bottom: 25px; animation-delay: 0.7s; }
+        .bar { width: 4px; height: 2px; background: white; border-radius: 2px; opacity: 0.8; transition: height 0.05s ease; box-shadow: 0 0 5px rgba(255,255,255,0.2); }
 
         .links { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
-        .link-btn { text-decoration: none; color: white; background: rgba(255, 255, 255, 0.08); padding: 14px; border-radius: 12px; transition: 0.3s; border: 1px solid rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 500; position: relative; overflow: hidden; }
-        .link-btn:hover { background: rgba(255, 255, 255, 0.15); border: 1px solid white; transform: translateY(-2px); }
+        .link-btn { text-decoration: none; color: white; background: rgba(255, 255, 255, 0.08); padding: 14px; border-radius: 12px; transition: 0.3s; border: 1px solid rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 500; }
+        .link-btn:hover { background: rgba(255, 255, 255, 0.15); border: 1px solid white; }
 
         .player-widget { background: rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .track-name { font-size: 10px; font-weight: 600; color: #aaa; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .track-name { font-size: 10px; font-weight: 600; color: #aaa; margin-bottom: 10px; text-transform: uppercase; }
         .controls { display: flex; align-items: center; justify-content: center; gap: 20px; }
         .control-btn { cursor: pointer; font-size: 18px; transition: 0.3s; color: rgba(255,255,255,0.8); }
         .main-play { font-size: 24px !important; width: 30px; }
-        .vol-container { margin-top: 15px; display: flex; align-items: center; gap: 8px; }
-        #volumeSlider { width: 100%; height: 3px; cursor: pointer; accent-color: white; }
+        #volumeSlider { width: 100%; height: 3px; cursor: pointer; accent-color: white; margin-top: 15px; }
     </style>
 </head>
 <body>
     <div class="bg-glow"></div>
-    <audio id="bg-music" loop playsinline>
+    <audio id="bg-music" loop crossorigin="anonymous">
         <source src="spaztastic_waifu_-_decoder_(Zvyki.com).mp3" type="audio/mpeg">
     </audio>
 
@@ -66,10 +60,11 @@
         <h1 class="fade-in">karmonov</h1>
         <p class="bio fade-in">I'm studying cybersecurity and HTML website creation</p>
 
-        <!-- Графический эквалайзер -->
-        <div class="equalizer fade-in" id="eq">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="equalizer fade-in" id="equalizer">
+            <!-- 12 полосок для анализа -->
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
         </div>
 
         <div class="links">
@@ -82,9 +77,8 @@
             <div class="controls">
                 <i class="fas fa-backward-step control-btn" id="prevBtn"></i>
                 <i class="fas fa-play control-btn main-play" id="playBtn"></i>
-                <i class="fas fa-volume-high" style="font-size: 12px; color: #666;"></i>
             </div>
-            <div class="vol-container"><input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5"></div>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
         </div>
     </div>
 
@@ -95,38 +89,54 @@
         const volSlider = document.getElementById('volumeSlider');
         const bars = document.querySelectorAll('.bar');
 
-        function toggleEQ(play) {
+        let audioCtx, analyzer, dataArray, source;
+
+        function initAudio() {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            analyzer = audioCtx.createAnalyzer();
+            source = audioCtx.createMediaElementSource(audio);
+            source.connect(analyzer);
+            analyzer.connect(audioCtx.destination);
+            analyzer.fftSize = 64;
+            dataArray = new Uint8Array(analyzer.frequencyBinCount);
+            renderFrame();
+        }
+
+        function renderFrame() {
+            requestAnimationFrame(renderFrame);
+            analyzer.getByteFrequencyData(dataArray);
+            
             bars.forEach((bar, i) => {
-                if(play) {
-                    bar.classList.add('anim-bar');
-                    bar.style.animationDelay = (i * 0.1) + 's';
-                } else {
-                    bar.classList.remove('anim-bar');
-                    bar.style.height = "20%";
-                }
+                // Берем данные из спектра и применяем к высоте
+                const val = dataArray[i * 2] || 0;
+                const height = Math.max(2, (val / 255) * 30);
+                bar.style.height = height + 'px';
             });
         }
 
-        function updateUI() {
-            playBtn.className = audio.paused ? 'fas fa-play control-btn main-play' : 'fas fa-pause control-btn main-play';
-            toggleEQ(!audio.paused);
+        function togglePlay() {
+            initAudio();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            if (audio.paused) {
+                audio.play();
+                playBtn.className = 'fas fa-pause control-btn main-play';
+            } else {
+                audio.pause();
+                playBtn.className = 'fas fa-play control-btn main-play';
+            }
         }
 
-        function playAudio() {
-            audio.play().then(updateUI).catch(() => {});
-        }
-
-        document.body.addEventListener('click', () => { if(audio.paused) playAudio(); }, { once: false });
-        
-        playBtn.onclick = (e) => { e.stopPropagation(); audio.paused ? audio.play() : audio.pause(); updateUI(); };
-        prevBtn.onclick = (e) => { e.stopPropagation(); audio.currentTime = 0; audio.play(); updateUI(); };
+        playBtn.onclick = (e) => { e.stopPropagation(); togglePlay(); };
+        document.body.onclick = () => { if(audio.paused) togglePlay(); };
+        prevBtn.onclick = (e) => { e.stopPropagation(); audio.currentTime = 0; };
         volSlider.oninput = (e) => { audio.volume = e.target.value; };
 
         function createRaindrop() {
             const rain = document.createElement('div');
             rain.classList.add('rain');
             rain.style.left = Math.random() * 100 + 'vw';
-            rain.style.animationDuration = Math.random() * 1 + 0.5 + 's';
             document.body.appendChild(rain);
             setTimeout(() => rain.remove(), 1000);
         }
